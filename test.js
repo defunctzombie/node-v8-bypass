@@ -24,7 +24,7 @@ var store = new bypass.BypassStore();
 
 // create the list of documents we will put into cache
 var buff = [];
-for (var i=0 ; i<500000 ; ++i) {
+for (var i=0 ; i<5 ; ++i) {
     // this is done so the same object isn't referenced
     // cheap way to clone
     var doc = JSON.parse(JSON.stringify(template_document));
@@ -53,3 +53,4 @@ assert.equal(got, undefined);
 // object from the cache
 assert.equal(store.get(2).index, 2);
 
+assert.deepEqual([0, 2, 3, 4], store.list());

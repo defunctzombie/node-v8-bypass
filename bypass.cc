@@ -281,6 +281,7 @@ public:
         NODE_SET_PROTOTYPE_METHOD(ft, "set", Set);
         NODE_SET_PROTOTYPE_METHOD(ft, "get", Get);
         NODE_SET_PROTOTYPE_METHOD(ft, "del", Del);
+        NODE_SET_PROTOTYPE_METHOD(ft, "list", List);
 
         target->Set(String::NewSymbol("BypassStore"), ft->GetFunction());
     }
@@ -338,6 +339,22 @@ private:
         store->m_cache.erase(k);
 
         return scope.Close(Handle<Value>());
+    }
+
+    static Handle<Value> List(const Arguments& args)
+    {
+        HandleScope scope;
+
+        Local<Array> arr = Array::New();
+
+        BypassStore* store = ObjectWrap::Unwrap<BypassStore>(args.This());
+        CacheMap::const_iterator iter = store->m_cache.begin();
+        for (uint32_t i=0; iter != store->m_cache.end() ; ++iter, ++i)
+        {
+            arr->Set(i, Int32::New(iter->first));
+        }
+
+        return scope.Close(arr);
     }
 };
 }
