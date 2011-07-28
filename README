@@ -1,0 +1,2 @@
+Bypass the v8 heap memory limit by storing objects in node
+process memory versus on the v8 heap.
